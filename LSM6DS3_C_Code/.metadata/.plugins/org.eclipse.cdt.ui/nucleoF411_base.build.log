@@ -1,0 +1,85 @@
+21:20:30 **** Incremental Build of configuration Debug for project nucleoF411_base ****
+make -j8 all 
+arm-none-eabi-gcc -std=c99 -ISTM32F4xx_HAL_Driver/inc/ -Iinclude/ -Imbed_shield/inc/ -ILSM6DS3/inc -I. -g -D__DEBUG__ -O0 -Wall -march=armv7e-m -mfloat-abi=hard -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -DSTM32F411xE -Wextra -Warray-bounds -Wno-unused-parameter -fomit-frame-pointer -MD -MP -MF .dep/main.o.d   -c -o src/main.o src/main.c
+src/main.c: In function 'main':
+src/main.c:74:64: warning: implicit conversion from 'enum <anonymous>' to 'LSM6DS3_GyroscopeFullScale' [-Wenum-conversion]
+   74 |         LSM6DS3_SetGyroscopeConfig(&lsm6ds3, LSM6DS3_ODR_26HZ, LSM6DS3_FS_2G);
+      |                                                                ^~~~~~~~~~~~~
+src/main.c:87:34: warning: pointer targets in passing argument 2 of 'uart_printf' differ in signedness [-Wpointer-sign]
+   87 |             uart_printf(&huart2, "%f|%f|%f|%f|%f|%f\n", x, y ,z, g_x, g_y, g_z);
+      |                                  ^~~~~~~~~~~~~~~~~~~~~
+      |                                  |
+      |                                  char *
+In file included from src/main.c:4:
+STM32F4xx_HAL_Driver/inc/stm32f4xx_hal_uart.h:51:60: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+   51 | void uart_printf(UART_HandleTypeDef *huart, const uint8_t* fmt, ...);
+      |                                             ~~~~~~~~~~~~~~~^~~
+src/main.c:88:34: warning: pointer targets in passing argument 2 of 'uart_printf' differ in signedness [-Wpointer-sign]
+   88 |             uart_printf(&huart1, "%f|%f|%f|%f|%f|%f\n", x, y ,z, g_x, g_y, g_z);
+      |                                  ^~~~~~~~~~~~~~~~~~~~~
+      |                                  |
+      |                                  char *
+STM32F4xx_HAL_Driver/inc/stm32f4xx_hal_uart.h:51:60: note: expected 'const uint8_t *' {aka 'const unsigned char *'} but argument is of type 'char *'
+   51 | void uart_printf(UART_HandleTypeDef *huart, const uint8_t* fmt, ...);
+      |                                             ~~~~~~~~~~~~~~~^~~
+src/main.c:69:17: warning: unused variable 'whoami' [-Wunused-variable]
+   69 |         uint8_t whoami = LSM6DS3_WhoAmI(&lsm6ds3);
+      |                 ^~~~~~
+arm-none-eabi-gcc -o main.elf startup/stm32f411_periph.o startup/sys_handlers.o startup/system_stm32f4xx.o STM32F4xx_HAL_Driver/src/stm32f4xx_ll_rcc.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal_i2c.o STM32F4xx_HAL_Driver/src/util.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal_cortex.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal_uart.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal_gpio.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal_tim.o STM32F4xx_HAL_Driver/src/stm32f4xx_hal_spi.o LSM6DS3/src/lsm6ds3.o mbed_shield/src/leds.o mbed_shield/src/sw.o mbed_shield/src/lm75.o mbed_shield/src/lcd_128x32.o src/stm32f4xx_hal_msp.o src/stm32f4xx_it.o src/main.o startup/startup_stm32f411xe.o -march=armv7e-m -mfloat-abi=hard -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mthumb -DSTM32F411xE -Tconfig/STM32F411RE_FLASH.lds -lc -lgcc -lgcov -lm -Wl,-Map=main.elf.map,--gc-sections  -specs=nano.specs -specs=nosys.specs  
+C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-closer.o): in function `_close_r':
+(.text._close_r+0xc): warning: _close is not implemented and will always fail
+C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-lseekr.o): in function `_lseek_r':
+(.text._lseek_r+0x10): warning: _lseek is not implemented and will always fail
+C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-readr.o): in function `_read_r':
+(.text._read_r+0x10): warning: _read is not implemented and will always fail
+C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-writer.o): in function `_write_r':
+(.text._write_r+0x10): warning: _write is not implemented and will always fail
+C:/ST/STM32CubeIDE_1.16.1/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.200.202406191623/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: warning: main.elf has a LOAD segment with RWX permissions
+arm-none-eabi-objdump -h main.elf
+
+main.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000198  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00003840  08000198  08000198  00001198  2**3
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       000008a4  080039d8  080039d8  000049d8  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .init_array   00000004  0800427c  0800427c  0000527c  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  4 .fini_array   00000004  08004280  08004280  00005280  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  5 .data         000000c8  20000000  08004284  00006000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .bss          00000378  200000c8  0800434c  000060c8  2**2
+                  ALLOC
+  7 ._user_heap_stack 00000600  20000440  0800434c  00006440  2**0
+                  ALLOC
+  8 .ARM.attributes 00000030  00000000  00000000  000060c8  2**0
+                  CONTENTS, READONLY
+  9 .debug_info   00009171  00000000  00000000  000060f8  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 10 .debug_abbrev 00001d67  00000000  00000000  0000f269  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 11 .debug_aranges 00000240  00000000  00000000  00010fd0  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 12 .debug_line   00004cf5  00000000  00000000  00011210  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 13 .debug_str    00002d9d  00000000  00000000  00015f05  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .comment      00000043  00000000  00000000  00018ca2  2**0
+                  CONTENTS, READONLY
+ 15 .debug_frame  000012bc  00000000  00000000  00018ce8  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_ranges 00000020  00000000  00000000  00019fa8  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+arm-none-eabi-size main.elf
+   text	   data	    bss	    dec	    hex	filename
+  17020	    208	   2424	  19652	   4cc4	main.elf
+arm-none-eabi-objcopy -O ihex main.elf main.hex
+arm-none-eabi-objcopy -O binary main.elf main.bin
+
+21:20:33 Build Finished. 0 errors, 9 warnings. (took 3s.89ms)
+

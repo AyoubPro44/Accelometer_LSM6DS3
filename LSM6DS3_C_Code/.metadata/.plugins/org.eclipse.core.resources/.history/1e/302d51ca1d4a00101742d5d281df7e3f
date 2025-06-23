@@ -1,0 +1,95 @@
+#include "stm32f4xx_hal_msp.h"
+#include "stm32f4xx_hal_gpio.h"
+#include "stm32f4xx_hal_tim.h"
+#include "stm32f4xx_hal_uart.h"
+#include "stm32f4xx_hal_i2c.h"
+#include "leds.h"
+#include "sw.h"
+#include "lm75.h"
+#include "stm32f4xx_hal.h"
+#include "lsm6ds3.h"
+
+TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim5;
+UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart1;
+I2C_HandleTypeDef hi2c1;
+
+//===========================================================
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+	switch(GPIO_Pin)
+	{
+	}
+}
+//============================================================
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart == &huart2)
+	{
+	}
+}
+//============================================================
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+
+}
+//============================================================
+int main()
+{
+	HAL_Init();
+	HAL_MspInit();
+
+	hi2c1.Instance = I2C1;
+	hi2c1.Init.ClockSpeed = 400000;
+	HAL_I2C_Init(&hi2c1);
+
+	// uart2 connection
+
+	huart2.Instance          = USART2;
+	huart2.Init.BaudRate     = 115200;
+	huart2.Init.WordLength   = UART_WORDLENGTH_8B;
+	huart2.Init.StopBits     = UART_STOPBITS_1;
+	huart2.Init.Parity       = UART_PARITY_NONE;
+	HAL_UART_Init(&huart2);
+
+	// uart1 connection
+
+	huart1.Instance          = USART1;
+	huart1.Init.BaudRate     = 9600;
+	huart1.Init.WordLength   = UART_WORDLENGTH_8B;
+	huart1.Init.StopBits     = UART_STOPBITS_1;
+	huart1.Init.Parity       = UART_PARITY_NONE;
+	HAL_UART_Init(&huart1);
+
+	LSM6DS3_HandleTypeDef lsm6ds3;
+
+	LSM6DS3_Init(&lsm6ds3, &hi2c1);
+
+	uint8_t whoami = LSM6DS3_WhoAmI(&lsm6ds3);
+
+
+	LSM6DS3_WriteReg(&lsm6ds3, LSM6DS3_REG_CTRL3_C, 0x04);
+	LSM6DS3_SetAccelerometerConfig(&lsm6ds3, LSM6DS3_ODR_26HZ, LSM6DS3_FS_2G);
+	LSM6DS3_SetGyroscopeConfig(&lsm6ds3, LSM6DS3_ODR_26HZ, LSM6DS3_FS_2G);
+
+	float x = 0, y = 0, z = 0;
+	float g_x = 0, g_y = 0, g_z = 0;
+	float temp;
+
+	while(1) {
+	    // Read accelerometer data
+	    LSM6DS3_ReadAccelerometer(&lsm6ds3, &x, &y, &z);
+	    LSM6DS3_ReadTemperature(&lsm6ds3, &temp);
+	    LSM6DS3_ReadGyroscope(&lsm6ds3, &g_x, &g_y, &g_z);
+
+
+	    uart_printf(&huart2, "%f|%f|%f|%f|%f|%f\n", x, y ,z, g_x, g_y, g_z);
+	    uart_printf(&huart1, "%f|%f|%f|%f|%f|%f\n", x, y ,z, g_x, g_y, g_z);
+
+	    HAL_Delay(10);
+	}
+
+	return 0;
+}
+//============================================================
